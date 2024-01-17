@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deliziosa | Join Us!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../../css/index.css" />
+  </head>
+  <body class="bg-light">
+    <nav class="navbar py-3 fixed-top bg-dark" data-bs-theme="dark">
+      <div class="container-fluid justify-content-start z-1">
+        <button class="navbar-toggler" type="button">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand fs-2 ms-4 opacity-on" href="#"
+          ><span class="text-light acme">Deli</span
+          ><span class="text-warning acme">ziosa</span></a
+        >
+      </div>
+    </nav>
+    <div
+      class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark bg-dark h-100 pt-4 fixed-top sidebar sidebar-out z-0 shadow-lg"
+      style="width: 280px"
+    >
+      <br /><br /><br />
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li>
+          <a href="#" class="nav-link text-white">
+            <i class="fa-solid fa-users me-2"></i>
+            Customers
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <i class="fa-solid fa-spoon me-2"></i>
+            Orders
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <i class="fa-solid fa-clock me-2"></i>
+            Meals
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <i class="fa-solid fa-user-tie me-2"></i>
+            Class
+          </a>
+        </li>
+      </ul>
+      <hr />
+      <div class="dropdown">
+        <a
+          href="#"
+          class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-user me-3"></i>
+          <strong>User</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+          <li>
+            <a class="dropdown-item" href="Profile/update_profile.html"
+              >Profile</a
+            >
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li><a class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+    <main class="d-flex justify-content-center align-items-center h-100 p-5">
+      <section
+        class="update-profile rounded shadow-lg border border-dark-subtle"
+      >
+        <h1 class="text-center mb-5 fw-bold">
+          Update <span class="text-warning">Profile</span>
+        </h1>
+        <form>
+          <div class="mb-4">
+            <input
+              type="text"
+              class="form-control rounded-0 bg-body-secondary border border-dark-subtle"
+              placeholder="Fullname"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <input
+              type="email"
+              class="form-control rounded-0 bg-body-secondary border border-dark-subtle"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <input
+              type="text"
+              class="form-control rounded-0 bg-body-secondary border border-dark-subtle"
+              placeholder="Phone Numbers"
+              required
+            />
+          </div>
+          <div class="mb-2">
+            <input
+              type="password"
+              class="form-control rounded-0 bg-body-secondary border border-dark-subtle"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <a
+            class="text-gold mt-3 form-link mb-4 d-block"
+            id="reg-suggested-password"
+            >Wanna try update profile with suggested password?</a
+          >
+          <button
+            type="submit"
+            class="btn btn-warning btn-secondary-warning border border-secondary-warning form-control rounded-0 mt-1"
+          >
+            Submit
+          </button>
+        </form>
+        <a class="text-center text-gold mt-3 form-link d-block" id="reg-link"
+          >Already have an account?</a
+        >
+      </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/navbar.js"></script>
+  </body>
+</html>

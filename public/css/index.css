@@ -1,0 +1,528 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&family=Quicksand&display=swap');
+
+body {
+    scroll-behavior: smooth;
+}
+
+* {
+    font-family: 'Quicksand', serif;
+    box-sizing: border-box;
+}
+
+th, td {
+    text-align: center;
+    padding: 20px !important;
+}
+
+.fs-6vw {
+    font-size: 6vw;
+}
+
+.py-10vh {
+    padding: 10vh 0 !important;
+}
+
+.h-100 {
+    height: 110vh !important;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.navbar {
+    width: 100% !important;
+    position: fixed;
+}
+
+.opacity-on {
+    opacity: 1;
+    animation: fade-in .5s 1;
+}
+
+@keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.opacity-out {
+    opacity: 0;
+    animation: fade-out .5s 1;
+}
+
+.appear {
+    animation: fade-out .3s ease-in-out;
+}
+
+@keyframes fade-out {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+.sidebar-in {
+    transform: translateX(0);
+    animation: fade-in-left .5s 1;
+}
+
+@keyframes fade-in-left {
+    from {transform: translateX(-100%);}
+    to {transform: translateX(0);}
+}
+
+.sidebar-out {
+    transform: translateX(-100%);
+    animation: fade-out-left .5s 1;
+}
+
+@keyframes fade-out-left {
+    from {transform: translateX(0);}
+    to {transform: translateX(-100%);}
+}
+
+.acme {
+    font-family: 'Acme', serif !important;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.bg-white {
+    background: #fff;
+}
+
+.bg-dark-metal {
+    background: linear-gradient(180deg, #212529 17.71%, #000 92.19%);
+}
+
+.bg-semidark {
+    background: rgba(28, 28, 28, 0.829);
+}
+
+.btn-danger {
+    color: white !important;
+}
+
+.btn-danger:hover {
+    background: none !important;
+    color: red !important;
+    transition: .3s ease;
+}
+
+.btn-green {
+    background: #198754;
+    color: white !important;
+}
+
+.btn-green:hover {
+    --bs-btn-bg: none !important;
+    color: #198754 !important;
+    transition: .3s ease;
+}
+
+/* .add-btn:hover .plus-logo {
+    background: none !important;
+    transition: .3s ease;
+    color: #198754 !important;
+} */
+
+.text-gold {
+    color: #664D03;
+}
+
+nav {
+    transition: .3s;
+}
+
+.btn-reservation {
+    color: #664D03 !important;
+}
+
+#hero {
+    background: url("../img/hero.png");
+    background-size: cover;
+    background-position: center;
+
+}
+
+#hero > .container, #hero {
+    height: 100vh;
+}
+
+#brand-hero {
+    font-size: 8vw;
+}
+
+.btn-warning:hover, .nav-link:hover {
+    background: none !important;
+    color: #F5BA08 !important;
+}
+
+.border-secondary-warning {
+    border: 1px solid #664D03 !important;
+}
+
+.btn-secondary-warning:hover {
+    color: #664D03 !important;
+}
+
+.booking-btn {
+    width: 100%;
+}
+
+#about-us {
+    padding: 200px 0 !important;
+    margin-top: -10px;
+}
+
+#about-us > .container > .content {
+    margin-top: 100px !important;
+}
+
+#about-us > .container > .content > .d-flex > p {
+    text-align: justify;
+}
+
+#gallery {
+    margin-top: 80px;
+}
+
+.line {
+    width: 0;
+    height: 4px;
+    left: -50%;
+}
+
+.menu-link:hover {
+    cursor: pointer;
+}
+
+.menu-link:hover > p > a {
+    transition: 0.3s;
+}
+
+.menu-link:hover > .line {
+    transition: 0.3s;
+}
+
+.menu-link:hover > p > a {
+    color: #F5BA08 !important;
+}
+
+.menu-link:hover > .line {
+    width: 45%;
+}
+
+.gallery-images {
+    flex-wrap: wrap;
+}
+
+.img-gallery {
+    height: 200px;
+    transition: 0.3s;
+}
+
+.img-gallery:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.74) !important;
+}
+
+.img-gallery-1 {
+    background: url("../img/gallery/carissa-gan-KSXvrqKUxnc-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 15%;
+}
+
+.img-gallery-2 {
+    background: url("../img/gallery/kate-townsend-hEC6zxdFF0M-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 50%;
+}
+
+.img-gallery-3 {
+    background: url("../img/gallery/klara-kulikova-WcV2YkM3Dls-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 30%;
+}
+
+#testimonials {
+    margin-top: 200px;
+}
+
+#testimonials-container {
+    width: 80%;
+    margin: 100px 8vw 0 8vw;
+    padding-bottom: 20px;
+}
+
+.card > img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.card {
+    min-width: 400px !important;
+}
+
+#recognition {
+    margin-top: 100px;
+}
+
+.img-awards {
+    width: 150px;
+    height: 150px;
+    margin-top: 80px;
+}
+
+#contact {
+    margin-top: 200px;
+}
+
+#contact-title {
+    width: 100%;
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+.fs-4vw {
+    font-size: 4vw;
+}
+
+#location {
+    margin-top: 100px;
+}
+
+footer {
+    margin-top: 200px;
+}
+
+.social-media-icon {
+    width: 24px;
+}
+
+@media only screen and (max-width: 1200px) {
+    #brand-hero {
+        font-size: 8vw;
+    }
+    
+}
+
+
+@media only screen and (max-width: 768px) {
+    #brand-hero {
+        font-size: 15vw;
+    }
+    
+}
+
+@media only screen and (max-width: 576px) {
+    #brand-hero {
+        font-size: 20vw;
+    }
+
+    .img-gallery-1 {
+        background: url("../img/gallery/carissa-gan-KSXvrqKUxnc-unsplash.jpg");
+        background-size: cover;
+        background-position: center;
+        width: 30%;
+    }
+    
+    .img-gallery-2 {
+        background: url("../img/gallery/kate-townsend-hEC6zxdFF0M-unsplash.jpg");
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+    }
+    
+    .img-gallery-3 {
+        background: url("../img/gallery/klara-kulikova-WcV2YkM3Dls-unsplash.jpg");
+        background-size: cover;
+        background-position: center;
+        width: 60%;
+    }
+
+    #title-contact {
+        text-align: center;
+        font-size: 7vw;
+    }
+
+    br {
+        display: none !important;
+    }
+    
+    form {
+        margin-top: 30px;
+    }
+
+    #title-gallery {
+        text-align: center;
+    }
+
+    #title-testimonials {
+        font-size: 6.5vw !important;
+    }
+
+    #testimonials-container {
+        margin-top: 50px;
+    }
+
+    footer > .container {
+        flex-direction: column !important;
+    }
+
+    footer p {
+        font-size: 14px;
+    }
+
+    .social-media-icon {
+        width: 20px;
+    }
+}
+
+@media only screen and (max-height: 700px) {
+    .sign-form {
+        width: 60%;
+    }
+
+    .logo-slogan {
+        width: 20%;
+    }
+
+    .login, .register {
+        padding-top: 80px !important;
+        padding-bottom: 80px !important;
+    }
+}
+
+/* update profile page */
+
+.update-profile {
+    width: 30%;
+    background: #fff;
+    height: fit-content;
+    padding: 50px 80px; 
+    margin-top: 100px;
+}
+
+/* login page */
+
+.bg-login {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.79) 0%, rgba(0, 0, 0, 0.52) 100%), url('../img/login.png'), lightgray 50%;
+    background-size: cover;
+}
+
+.logo-slogan {
+    display: block;
+}
+
+.logo-slogan-link:hover .text-light {
+    transition: .5s ease;
+    color: #F5BA08 !important;
+}
+
+.logo-slogan-link:hover .text-warning {
+    transition: .5s ease;
+    color: #FFF !important;
+}
+
+.logo-slogan, .sign-form {
+    width: 40%;
+    height: 100vh;
+}
+
+.sign-form {
+    justify-content: center;
+}
+
+.login, .register {
+    width: 100%;
+    padding: 150px 8vw;
+    background: linear-gradient(180deg, #2125296c 20.31%, rgba(0, 0, 0, 0.836) 93.75%);
+    box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.25);
+    animation: fade-in-right .5s 1;
+}
+
+@keyframes fade-in-right {
+    from {transform: translateX(100%);}
+    to {transform: translateX(0);}
+}
+
+.form-link:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#reg-suggested-password {
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 884px) {
+    main {
+        flex-direction: column;
+    }
+
+    .logo-slogan, .sign-form {
+        width: 100%;
+    }
+
+    .logo-slogan {
+        margin-top: 10vh;
+        height: fit-content;
+    }
+
+    .login, .register {
+        width: 80%;
+        padding: 200px 100px;
+    }
+
+    .sign-form {
+        margin-top: 40px;
+        justify-content: flex-start !important;
+    }
+
+    #sign-logo {
+        font-size: 6vw;
+    }
+
+    #sign-slogan {
+        font-size: 2.5vw !important;
+    }
+}
+
+@media only screen and (max-width: 690px) {
+    .login, .register {
+        width: 90%;
+        padding: 200px 40px;
+    }
+}
+
+/* order page */
+
+.order {
+    width: 40%;
+    background: #fff;
+    height: fit-content;
+    padding: 100px 80px 120px 80px; 
+    margin-top: 100px;
+}
+
+.order-data {
+    margin-top: 15vh;
+}
+
+/* reservation detail */
+.reservation-det {
+    width: 40%;
+    background: #fff;
+    height: fit-content;
+    padding: 50px 80px 100px 80px; 
+    margin-top: 100px;
+}
+
