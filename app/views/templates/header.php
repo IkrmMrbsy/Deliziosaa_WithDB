@@ -47,18 +47,13 @@
         </a>
       </li>
       <li>
-        <a href="<?=BASEURL;?>" class="nav-link text-white">
+        <a href="<?=BASEURL;?>customers/index" class="nav-link text-white">
           <i class="fa-solid fa-users me-2"></i> Customers
         </a>
       </li>
       <li>
         <a href="<?= BASEURL; ?>orders/index" class="nav-link text-white">
           <i class="fa-solid fa-spoon me-2"></i> Orders
-        </a>
-      </li>
-      <li>
-        <a href="<?= BASEURL; ?>reservation/index" class="nav-link text-white">
-          <i class="fa-solid fa-paste me-2"></i> Reservation
         </a>
       </li>
     </ul>
@@ -69,10 +64,12 @@
         <strong><?=$_SESSION['username'];?></strong>
       </a>
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+        <?php if(!isset($_SESSION['is_admin'])) : ?>
         <li>
           <a class="dropdown-item" href="Profile/update_profile.html">Profile</a>
         </li>
         <li><hr class="dropdown-divider" /></li>
+        <?php endif;?>
         <li><a class="dropdown-item" href="<?=BASEURL;?>login/logout">Sign out</a></li>
       </ul>
     </div>

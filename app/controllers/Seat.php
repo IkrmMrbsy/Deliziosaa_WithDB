@@ -15,7 +15,7 @@ class Seat extends Controller {
             $data['title'] = 'Add New Class Category';
             
             if (!empty($id)) {
-                $data['class'] = $this->model('Class_model')->getclassById($id);
+                $data['class'] = $this->model('Class_model')->getClassById($id);
             } 
                 
             $this->view('templates/header', $data);

@@ -83,7 +83,7 @@ function showDetail(clickedElement) {
                       <strong>Price:</strong> ${reservation.price} (IDR)<br>
                       <strong>Quantity:</strong> ${reservation.quantity}<br>
                       <div class="d-flex justify-content-end">
-                        <a href="http://localhost/Deliziosa_Restaurant/public/reservation/form/${reservation.id_reservation}" 
+                        <a href="http://localhost/Deliziosa_Restaurant/public/reservation/formByOrder/${id}/${reservation.id_reservation}" 
                         class="text-decoration-none mt-2 fs-6 me-3 btn btn-warning">Edit</a>
                         <a href="http://localhost/Deliziosa_Restaurant/public/reservation/delete/${reservation.id_reservation}" 
                         class="text-decoration-none mt-2 fs-6 btn btn-danger">Delete</a>

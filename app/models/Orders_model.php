@@ -49,7 +49,8 @@ class Orders_model {
         $this->db->query('SELECT c.name, o.*, m.meals_type, m.time_desc 
                                     FROM '.$this->table.' o 
                                     JOIN customers c ON c.id_customers = o.customers_id 
-                                    JOIN meals m ON m.id_meals = o.meals_id');
+                                    JOIN meals m ON m.id_meals = o.meals_id WHERE id_orders = :id_orders');
+        $this->db->bind('id_orders', $id);
 
         return $this->db->single();
     }

@@ -32,11 +32,19 @@
                             <?php if(empty($data['orders']['id_orders'])): ?>
                                 <option selected disabled>Choose the user</option>
                             <?php endif; ?>
-                            <?php foreach ($data['customers'] as $customer): ?>
-                                <option value="<?= $customer['id_customers'] ?>" <?= ($customer['id_customers'] == $data['orders']['id_orders']) ? 'selected' : '' ?>>
-                                    <?= $customer['name']; ?>
-                                </option>
-                            <?php endforeach; ?>
+                            <?php if(!empty($data['orders']['id_orders'])) : ?>
+                                <?php foreach ($data['customers'] as $customer): ?>
+                                    <option value="<?= $customer['id_customers'] ?>" <?= ($customer['id_customers'] == $data['orders']['id_orders']) ? 'selected' : '' ?>>
+                                        <?= $customer['name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <?php foreach ($data['customers'] as $customer): ?>
+                                    <option value="<?= $customer['id_customers'] ?>">
+                                        <?= $customer['name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
                     <?php else: ?>
                         <input

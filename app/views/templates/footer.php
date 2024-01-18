@@ -2,6 +2,6 @@
     <script src="<?= BASEURL; ?>js/navbar.js"></script>
     <script src="<?= BASEURL; ?>js/validatetimeinput.js"></script>
     <script src="<?= BASEURL; ?>js/getdetail.js"></script>
-    <script src="<?= BASEURL; ?>js/dynamicform.js"></script>
+    <script src="<?= BASEURL; ?>js/showpassword.js"></script>
   </body>
 </html>

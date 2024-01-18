@@ -118,10 +118,18 @@
                 type="password"
                 class="form-control rounded-0"
                 placeholder="Password"
+                id="password"
                 name="password"
                 required
                 autocomplete="off"
               />
+              
+            </div>
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="show-password" onclick="showPassword()">
+              <label class="form-check-label text-light" for="show-password">
+                  Show password
+              </label>
             </div>
             <button
               type="submit"

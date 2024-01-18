@@ -10,17 +10,17 @@ class Login extends Controller {
         $password = $_POST["password"];
         $data['user'] = $this->model('User_model')->getUserByEmail($email, $password);
 
-                if ($data['user']) {
-                    // Login berhasil
-                    $_SESSION['username'] = $data['user']['name'];
-                    $_SESSION['id_user'] = $data['user']['id_customers'];
-                    header("Location: " . BASEURL . "orders/index");
-                    exit();
-                } else {
-                    header('Location: '.BASEURL."login/login");
-                    exit();
-                }
+        if ($data['user']) {
+            // Login berhasil
+            $_SESSION['username'] = $data['user']['name'];
+            $_SESSION['id_user'] = $data['user']['id_customers'];
+            header("Location: " . BASEURL . "orders/index");
+            exit();
+        } else {
+            header('Location: '.BASEURL."login/login");
+            exit();
         }
+    }
     
 
     public function register() {

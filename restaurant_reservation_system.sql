@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2024 at 06:22 PM
+-- Generation Time: Jan 18, 2024 at 08:07 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -101,7 +101,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `signin_suggested_password` (IN `pho
     SELECT generatedPassword;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_reservation_price` (IN `idReservation` VARCHAR(4), IN `idParty` VARCHAR(4), IN `idClass` VARCHAR(4), IN `revsQuantity` INT(11), IN `idOrder` VARCHAR(4))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_reservation_price` (IN `idReservation` VARCHAR(4), IN `idParty` VARCHAR(4), IN `idClass` VARCHAR(4), IN `revsQuantity` INT(11))   BEGIN
     DECLARE partyPrice INT;
     DECLARE classPrice INT;
     DECLARE totalPrice INT;
@@ -118,8 +118,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_reservation_price` (IN `idRe
         party_id = idParty,
         class_id = idClass,
         quantity = revsQuantity,
-        price = totalPrice,
-        orders_id = idOrder
+        price = totalPrice
     WHERE id_reservation = idReservation;
 END$$
 
@@ -264,7 +263,7 @@ CREATE TABLE `customers` (
   `numbers_phone` varchar(12) NOT NULL,
   `email` varchar(89) NOT NULL,
   `name` varchar(45) NOT NULL,
-  `password` varchar(100) NOT NULL DEFAULT 'user123'
+  `password` varchar(20) NOT NULL DEFAULT 'user123'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -274,8 +273,9 @@ CREATE TABLE `customers` (
 INSERT INTO `customers` (`id_customers`, `numbers_phone`, `email`, `name`, `password`) VALUES
 ('C001', '081234567891', 'arbhy@gmail.com', 'Arbhy Adityabrahma', 'arb123'),
 ('C002', '081234567893', 'ikram@gmail.com', 'Ikram', 'user1234'),
-('C003', '081234567895', 'faiz@gmail.com', 'Faiz Akbar', '$2y$10$ymMOn7ag2WdNhG4jGF4zr.rw5qnHkhoBtgxGteNLf.Oh/KX8KdZaO'),
-('C004', '1234567896', 'asdasd@gmail.com', 'asdasd', '$2y$10$1BL/.bmNGBbXlTbyI7H0Ce7GUsXwp/pPDmHTLN8ql2mpxNy5FuwRW');
+('C003', '081334567895', 'faizz@gmail.com', 'Faizal Akbar', 'sadasdasdasd'),
+('C004', '081134567891', 'sba@gmail.com', 'Sbaoidi', '$2y$10$6ZdlPDXy7yJi0'),
+('C005', '081233567891', 'asdasd@gmail.com', 'asdasda', '$2y$10$ELBsIqgXTtwk1');
 
 --
 -- Triggers `customers`
@@ -354,9 +354,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id_orders`, `customers_id`, `total_price`, `meals_id`, `paid_stat`, `date_paid`, `date_reservation`, `ticket`) VALUES
-('O001', 'C001', 2000000, 'M001', 'Paid', '2024-01-16', '2024-01-15', '71322630'),
-('O002', 'C001', 0, 'M001', 'Pending', NULL, '2024-01-16', NULL),
-('O003', 'C002', 800000, 'M001', 'Pending', NULL, '2024-01-17', NULL);
+('O001', 'C001', 500000, 'M001', 'Pending', NULL, '2024-01-19', NULL),
+('O002', 'C002', 1100000, 'M002', 'Pending', NULL, '2024-01-26', NULL);
 
 --
 -- Triggers `orders`
@@ -447,11 +446,8 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id_reservation`, `party_id`, `class_id`, `quantity`, `price`, `orders_id`) VALUES
-('R002', 'P001', 'CL001', 3, 750000, 'O001'),
-('R003', 'P001', 'CL001', 3, 750000, 'O001'),
-('R005', 'P001', 'CL001', 2, 500000, 'O001'),
-('R006', 'P002', 'CL001', 1, 350000, 'O003'),
-('R007', 'P002', 'CL002', 1, 450000, 'O003');
+('R001', 'P001', 'CL001', 2, 500000, 'O001'),
+('R002', 'P002', 'CL003', 2, 1100000, 'O002');
 
 --
 -- Triggers `reservation`
@@ -469,6 +465,23 @@ CREATE TRIGGER `alphanumeric_id_reservation` BEFORE INSERT ON `reservation` FOR 
 
     -- Generate a 4-character key with incrementing numeric part
     SET NEW.id_reservation = CONCAT('R', LPAD(current_value, 3, '0'));
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `before_reservation_update` BEFORE UPDATE ON `reservation` FOR EACH ROW BEGIN
+    DECLARE partyPrice INT;
+    DECLARE classPrice INT;
+    DECLARE totalPrice INT;
+
+    -- Get party and class prices, then summarize them
+    SELECT price INTO partyPrice FROM party WHERE id_party = NEW.party_id;
+    SELECT price INTO classPrice FROM class WHERE id_class = NEW.class_id;
+
+    SET totalPrice = (classPrice + partyPrice) * NEW.quantity;
+
+    -- Update the reservation with the new values
+    SET NEW.price = totalPrice;
 END
 $$
 DELIMITER ;
@@ -625,9 +638,9 @@ ALTER TABLE `party`
 --
 ALTER TABLE `reservation`
   ADD PRIMARY KEY (`id_reservation`),
-  ADD KEY `fk_reservation_party` (`party_id`),
-  ADD KEY `fk_reservation_order` (`orders_id`),
-  ADD KEY `fk_reservation_class` (`class_id`);
+  ADD KEY `party_id` (`party_id`),
+  ADD KEY `class_id` (`class_id`),
+  ADD KEY `orders_id` (`orders_id`);
 
 --
 -- Constraints for dumped tables
@@ -645,8 +658,8 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `reservation`
   ADD CONSTRAINT `fk_reservation_class` FOREIGN KEY (`class_id`) REFERENCES `class` (`id_class`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_reservation_order` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id_orders`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_reservation_party` FOREIGN KEY (`party_id`) REFERENCES `party` (`id_party`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_reservation_orders` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id_orders`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_reservation_party` FOREIGN KEY (`party_id`) REFERENCES `party` (`id_party`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

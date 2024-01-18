@@ -39,6 +39,7 @@ class Orders extends Controller {
                 $data['meals'] = $this->model('Meals_model')->getAllMeals();
             }
         }
+        
             
         $this->view('templates/header', $data);
         $this->view('orders/add', $data);
@@ -50,12 +51,12 @@ class Orders extends Controller {
             Flasher::setFlash('alreay', 'added', 'success');
 
             header('Location: '.BASEURL.'orders');
-            exit;
+            exit();
         } else {
             Flasher::setFlash('failed', 'to be added', 'danger');
 
             header('Location: '.BASEURL.'orders');
-            exit;
+            exit();
         }
     }
 
@@ -64,12 +65,12 @@ class Orders extends Controller {
             Flasher::setFlash('alreay', 'updated', 'success');
 
             header('Location: '.BASEURL.'orders');
-            exit;
+            exit();
         } else {
             Flasher::setFlash('failed', 'to be updated', 'danger');
 
             header('Location: '.BASEURL.'orders');
-            exit;
+            exit();
         }
     }
 
@@ -78,12 +79,12 @@ class Orders extends Controller {
             Flasher::setFlash('already', 'deleted', 'success');
 
             header('Location: '.BASEURL.'orders');
-            exit;
+            exit();
         } else {
             Flasher::setFlash('failed', 'to be deleted', 'danger');
 
             header('Location: '.BASEURL.'orders');
-            exit;
+            exit();
         }
     }
 

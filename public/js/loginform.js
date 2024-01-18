@@ -17,3 +17,13 @@ logLink.addEventListener('click', function () {
     loginForm.classList.remove("d-none");
     regForm.classList.add("d-none");
 });
+
+function showPassword() {
+    var password = document.querySelector("#password");
+    if (password.type === "password") {
+      password.type = "text";
+    } else {
+      password.type = "password";
+    }
+};
+  

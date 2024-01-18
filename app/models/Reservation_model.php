@@ -64,29 +64,17 @@ class Reservation_model {
     public function updateReservation($data) {
         
 
-        $query = 'CALL update_reservation_price(:idReservation, :idParty, :idClass, :revsQuantity, :idOrder);';
+        $query = 'UPDATE reservation SET party_id = :party_id, class_id = :id_class, quantity = :quantity WHERE id_reservation = :id_reservation';
 
         $this->db->query($query);
 
-        $this->db->bind('idParty', $data['id_party']);
-        $this->db->bind('idClass', $data['id_class']);
-        $this->db->bind('revsQuantity', $data['quantity']);
-        $this->db->bind('idOrder', $data['id_orders']);
-        $this->db->bind('idReservation', $data['id_reservation']);
+        $this->db->bind('party_id', $data['id_party']);
+        $this->db->bind('id_class', $data['id_class']);
+        $this->db->bind('quantity', $data['quantity']);
+        $this->db->bind('id_reservation', $data['id_reservation']);
 
         $this->db->execute();
 
         return $this->db->rowCount();
     }
-
-    // public function cariDataMahasiswa() {
-    //     $keyword = $_POST['keyword'];
-
-    //     $query = 'SELECT * FROM mahasiswa WHERE nama LIKE :keyword'; // tanda % di dalam PDO tidak akan berjalan jika langsung dimasukkan ke query
-
-    //     $this->db->query($query);
-    //     $this->db->bind('keyword', "%$keyword%");
-
-    //     return $this->db->resultSet();
-    // }
 }
