@@ -46,11 +46,13 @@
           <i class="fa-solid fa-champagne-glasses me-2"></i> Class
         </a>
       </li>
-      <li>
-        <a href="<?=BASEURL;?>customers/index" class="nav-link text-white">
-          <i class="fa-solid fa-users me-2"></i> Customers
-        </a>
-      </li>
+      <?php if(isset($_SESSION['is_admin'])) : ?>
+        <li>
+          <a href="<?=BASEURL;?>customers/index" class="nav-link text-white">
+            <i class="fa-solid fa-users me-2"></i> Customers
+          </a>
+        </li>
+      <?php endif; ?>
       <li>
         <a href="<?= BASEURL; ?>orders/index" class="nav-link text-white">
           <i class="fa-solid fa-spoon me-2"></i> Orders
@@ -65,10 +67,10 @@
       </a>
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
         <?php if(!isset($_SESSION['is_admin'])) : ?>
-        <li>
-          <a class="dropdown-item" href="Profile/update_profile.html">Profile</a>
-        </li>
-        <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" href="<?=BASEURL;?>customers/profile/<?=$_SESSION['id_user']?>">Profile</a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
         <?php endif;?>
         <li><a class="dropdown-item" href="<?=BASEURL;?>login/logout">Sign out</a></li>
       </ul>

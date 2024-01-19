@@ -76,22 +76,34 @@ class Customers extends Controller {
 
     public function update() {
         
-        if(isset($_SESSION['is_admin'])) {
-
-            if($this->model('Customers_model')->updateCustomers($_POST) > 0) {
-                Flasher::setFlash('alreay', 'updated', 'success');
-                
-                header('Location: '.BASEURL.'customers');
-                exit();
-            } else {
-                Flasher::setFlash('failed', 'to be updated', 'danger');
-                
-                header('Location: '.BASEURL.'customers');
-                exit();
-            }
+        if($this->model('Customers_model')->updateCustomers($_POST) > 0) {
+            Flasher::setFlash('alreay', 'updated', 'success');
+            
+            header('Location: '.BASEURL.'customers');
+            exit();
         } else {
+            Flasher::setFlash('failed', 'to be updated', 'danger');
+            
+            header('Location: '.BASEURL.'customers');
+            exit();
+        }
+        // if(isset($_SESSION['is_admin'])) {
+
+        // } else {
+        //     header('Location: '.BASEURL.'orders');
+        //     exit();
+        // }
+    }
+
+    public function profile($id) {
+        if(isset($_SESSION['is_admin'])) {
             header('Location: '.BASEURL.'orders');
             exit();
+        } else {
+            $data['customers'] = $this->model('Customers_model')->getCustomersById($id);
+            $this->view('templates/header', $data);
+            $this->view('profile/update_profile', $data);
+            $this->view('templates/footer');
         }
     }
 }

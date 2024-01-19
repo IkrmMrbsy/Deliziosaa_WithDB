@@ -1,5 +1,5 @@
 <main class="d-flex justify-content-center align-items-center h-100">
-    <section class="reservation-det rounded shadow-lg border border-dark-subtle">
+    <section class="form-container rounded shadow-lg border border-dark-subtle">
         <h1 class="fw-bold text-center mb-5">Get <span class="text-warning">Your Table</span></h1>
         <form class="mb-3" action="<?= (!empty($data['reservation']['id_reservation'])) ? BASEURL.'reservation/update' : BASEURL.'reservation/addByOrders'; ?>" method="post">
             <?php if (!empty($data['reservation']['id_reservation'])) : ?>

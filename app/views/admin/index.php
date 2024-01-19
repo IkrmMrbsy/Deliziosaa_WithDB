@@ -34,7 +34,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['id_user']) ) {
         <section class="sign-form d-flex flex-column justify-content-center">
             <div class="login">
                 <h1 class="acme text-center mb-5 text-light">
-                    Admin Login <span class="text-warning acme">Here</span>
+                    Admin <span class="text-warning acme"> Login</span>
                 </h1>
                 <form action="<?= BASEURL ?>login/admin" method="post">
                     <div class="mb-4">

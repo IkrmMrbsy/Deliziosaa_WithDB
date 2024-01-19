@@ -404,7 +404,7 @@ footer {
 /* update profile page */
 
 .update-profile {
-    width: 30%;
+    width: 50%;
     background: #fff;
     height: fit-content;
     padding: 50px 80px; 
@@ -517,12 +517,23 @@ footer {
     margin-top: 15vh;
 }
 
-/* reservation detail */
-.reservation-det {
-    width: 40%;
+.form-container {
+    width: 50%;
     background: #fff;
     height: fit-content;
     padding: 50px 80px 100px 80px; 
     margin-top: 100px;
 }
 
+
+@media only screen and (max-height: 600px) {
+    .h-100 {
+        height: 130vh !important;
+    }
+}
+
+@media only screen and (max-width: 795px) {
+    .form-container {
+        width: 90%;
+    }
+}

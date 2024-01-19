@@ -1,6 +1,6 @@
 <main class="d-flex justify-content-center align-items-center h-100">
       <section
-        class="reservation-det rounded shadow-lg border border-dark-subtle"
+        class="form-container rounded shadow-lg border border-dark-subtle"
       >
         <h1 class="text-center mb-5 fw-bold">
           Add <span class="text-warning">New Meals Category</span>

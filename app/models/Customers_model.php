@@ -29,6 +29,8 @@ class Customers_model {
     }
 
     public function addCustomers($data) {
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+
         $query = 'INSERT INTO customers (name, numbers_phone, email, password) VALUES
                 (:name, :numbers_phone, :email, :password);';
 
@@ -37,7 +39,7 @@ class Customers_model {
         $this->db->bind('name', $data['name']);
         $this->db->bind('numbers_phone', $data['numbers_phone']);
         $this->db->bind('email', $data['email']);
-        $this->db->bind('password', $data['password']);
+        $this->db->bind('password', $hashedPassword);
 
         $this->db->execute();
 
@@ -58,6 +60,7 @@ class Customers_model {
     }
 
     public function updateCustomers($data) {
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
         $query = 'UPDATE customers SET 
                     name=:name, 
                     password=:password, 
@@ -68,7 +71,7 @@ class Customers_model {
         $this->db->query($query);
 
         $this->db->bind('name', $data['name']);
-        $this->db->bind('password', $data['password']);
+        $this->db->bind('password', $hashedPassword);
         $this->db->bind('email', $data['email']);
         $this->db->bind('numbers_phone', $data['numbers_phone']);
         $this->db->bind('id_customers', $data['id_customers']);
