@@ -14,6 +14,10 @@ th, td {
     padding: 20px !important;
 }
 
+.black-placeholder::-webkit-input-placeholder, .black-placeholder::-ms-input-placeholder, .black-placeholder::-moz-input-placeholder {
+    color: #212529;
+}
+
 .fs-6vw {
     font-size: 6vw;
 }

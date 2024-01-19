@@ -64,6 +64,10 @@ class Orders extends Controller {
         if($this->model('Orders_model')->updateOrders($_POST) > 0) {
             Flasher::setFlash('alreay', 'updated', 'success');
 
+            if(!isset($_SESSION['is_admin'])) {
+                $_SESSION['customer_wallet'] = $this->model('Wallet_model')->getWalletByCustomer($_SESSION['id_user']);
+            }
+
             header('Location: '.BASEURL.'orders');
             exit();
         } else {

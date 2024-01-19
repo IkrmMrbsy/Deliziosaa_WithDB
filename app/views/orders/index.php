@@ -65,11 +65,17 @@
                   <i class="fa-solid fa-eye text-primary"></i>
                 </a>
               </td>
-              <td class="table-warning">
-                <a href="<?= BASEURL; ?>orders/form/<?=$order['id_orders'];?>" class="text-decoration-none"
-                  ><i class="text-warning fa-solid fa-pen"></i
-                ></a>
-              </td>
+              <?php if($order['total_price'] != 0) : ?>
+                <td class="table-warning">
+                  <a href="<?= BASEURL; ?>orders/form/<?=$order['id_orders'];?>" class="text-decoration-none"
+                    ><i class="text-warning fa-solid fa-pen"></i
+                  ></a>
+                </td>
+              <?php else : ?>
+                <td class="table-warning">
+                  <p class="text-danger fw-semibold">Add reservation first</p>
+                </td>
+              <?php endif ?>
               <td class="table-danger">
                 <a href="<?= BASEURL; ?>orders/delete/<?=$order['id_orders'];?>" class="text-decoration-none"
                   ><i class="text-danger fa-solid fa-trash"></i

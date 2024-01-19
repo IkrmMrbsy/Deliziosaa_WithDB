@@ -48,6 +48,13 @@
       </li>
       <?php if(isset($_SESSION['is_admin'])) : ?>
         <li>
+          <a href="<?=BASEURL;?>wallet/index" class="nav-link text-white">
+            <i class="fa-solid fa-wallet me-2"></i> Wallet
+          </a>
+        </li>
+      <?php endif; ?>
+      <?php if(isset($_SESSION['is_admin'])) : ?>
+        <li>
           <a href="<?=BASEURL;?>customers/index" class="nav-link text-white">
             <i class="fa-solid fa-users me-2"></i> Customers
           </a>
@@ -69,6 +76,10 @@
         <?php if(!isset($_SESSION['is_admin'])) : ?>
           <li>
             <a class="dropdown-item" href="<?=BASEURL;?>customers/profile/<?=$_SESSION['id_user']?>">Profile</a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" href="<?=BASEURL;?>wallet/form/<?=$_SESSION['customer_wallet']['id_wallet']?>">Wallet: <?=$_SESSION['customer_wallet']['wallet']?> (IDR)</a>
           </li>
           <li><hr class="dropdown-divider" /></li>
         <?php endif;?>

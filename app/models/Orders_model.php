@@ -128,6 +128,13 @@ class Orders_model {
 
         $this->db->execute();
 
+        $query = 'SELECT * FROM wallet WHERE customers_id = :customers_id';
+
+        $this->db->query($query);
+
+        $this->db->bind('customers_id', $data['id_customers']);
+        $this->db->single();
+
         return $this->db->rowCount();
     }
 

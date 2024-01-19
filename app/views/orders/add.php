@@ -94,7 +94,6 @@
                         aria-label="Paid Status" name="paid_stat" id="paid-stat" onchange="changeSelectBackground(this)"
                     >
                         <option class="bg-danger-subtle text-danger" value="Pending">Pending</option>
-                        <option class="bg-danger-subtle text-danger" value="Cancel">Cancel</option>
                         <option class="bg-success-subtle text-success" value="Paid">Paid</option>
                     </select>
                 </div>
