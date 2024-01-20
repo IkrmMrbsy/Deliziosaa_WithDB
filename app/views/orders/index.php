@@ -65,7 +65,7 @@
                   <i class="fa-solid fa-eye text-primary"></i>
                 </a>
               </td>
-              <?php if($order['total_price'] != 0) : ?>
+              <?php if($order['total_price'] != 0 && $order['paid_stat'] !== 'Paid') : ?>
                 <td class="table-warning">
                   <a href="<?= BASEURL; ?>orders/form/<?=$order['id_orders'];?>" class="text-decoration-none"
                     ><i class="text-warning fa-solid fa-pen"></i
@@ -73,7 +73,7 @@
                 </td>
               <?php else : ?>
                 <td class="table-warning">
-                  <p class="text-danger fw-semibold">Add reservation first</p>
+                  <?= ($order['paid_stat'] !== 'Paid')? '<p class="text-danger fw-semibold">Add reservation first</p>' : '<p class="text-success fw-semibold">Already paid</p>'?>
                 </td>
               <?php endif ?>
               <td class="table-danger">
@@ -90,22 +90,22 @@
 
   <!-- Modal -->
   <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="detailModalLabel">Order Details</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p id="meals-type"></p>
-        <p id="reservation-date"></p>
-        <p id="ticket-code"></p>
-      </div>
-      <div class="modal-footer">
-        <a class="btn btn-primary btn-rsv" href="">Add new reservation</a>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="detailModalLabel">Order Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="meals-type"></p>
+          <p id="reservation-date"></p>
+          <p id="ticket-code"></p>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-primary btn-rsv" id="btn-new-rsv" href="">Add new reservation</a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 

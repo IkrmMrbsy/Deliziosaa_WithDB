@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 18, 2024 at 08:07 PM
+-- Generation Time: Jan 20, 2024 at 08:02 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -271,11 +271,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id_customers`, `numbers_phone`, `email`, `name`, `password`) VALUES
-('C001', '081234567891', 'arbhy@gmail.com', 'Arbhy Adityabrahma', 'arb123'),
-('C002', '081234567893', 'ikram@gmail.com', 'Ikram', 'user1234'),
-('C003', '081334567895', 'faizz@gmail.com', 'Faizal Akbar', 'sadasdasdasd'),
-('C004', '081134567891', 'sba@gmail.com', 'Sbaoidi', '$2y$10$6ZdlPDXy7yJi0'),
-('C005', '081233567891', 'asdasd@gmail.com', 'asdasda', '$2y$10$ELBsIqgXTtwk1');
+('C001', '081234567893', 'arbhy@gmail.com', 'Arbhy Adityabrahma', 'arb123');
 
 --
 -- Triggers `customers`
@@ -289,6 +285,14 @@ CREATE TRIGGER `alphanumeric_id_customers` BEFORE INSERT ON `customers` FOR EACH
 
     -- Add the OUT parameter to store the generated ID
     SET @generated_id = NEW.id_customers;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `customer_wallet` AFTER INSERT ON `customers` FOR EACH ROW BEGIN
+
+    INSERT INTO wallet (wallet, customers_id) VALUES (0, NEW.id_customers);
+    
 END
 $$
 DELIMITER ;
@@ -343,7 +347,7 @@ CREATE TABLE `orders` (
   `customers_id` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `total_price` int(15) UNSIGNED DEFAULT 0,
   `meals_id` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `paid_stat` enum('Paid','Pending','Cancel') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'Pending',
+  `paid_stat` enum('Paid','Pending') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'Pending',
   `date_paid` date DEFAULT NULL,
   `date_reservation` date NOT NULL,
   `ticket` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
@@ -354,8 +358,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id_orders`, `customers_id`, `total_price`, `meals_id`, `paid_stat`, `date_paid`, `date_reservation`, `ticket`) VALUES
-('O001', 'C001', 500000, 'M001', 'Pending', NULL, '2024-01-19', NULL),
-('O002', 'C002', 1100000, 'M002', 'Pending', NULL, '2024-01-26', NULL);
+('O002', 'C001', 350000, 'M001', 'Paid', '2024-01-19', '2024-01-19', '11153995');
 
 --
 -- Triggers `orders`
@@ -373,6 +376,31 @@ CREATE TRIGGER `alphanumeric_id_orders` BEFORE INSERT ON `orders` FOR EACH ROW B
 
     -- Generate a 4-character key with incrementing numeric part
     SET NEW.id_orders = CONCAT('O', LPAD(current_value, 3, '0'));
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `pay_orders` AFTER UPDATE ON `orders` FOR EACH ROW BEGIN
+    DECLARE customer_wallet DECIMAL(10, 2);
+    DECLARE order_total DECIMAL(10, 2);
+
+    -- Check if the order is updated to paid
+    IF NEW.paid_stat = 'Paid' AND OLD.paid_stat <> 'Paid' THEN
+        -- Get the wallet amount of the customer
+        SELECT wallet INTO customer_wallet FROM wallet WHERE customers_id = NEW.customers_id;
+
+        -- Get the total price of the order
+        SELECT total_price INTO order_total FROM orders WHERE id_orders = NEW.id_orders;
+
+        -- Check if the wallet has sufficient balance
+        IF customer_wallet >= order_total THEN
+            -- Update the wallet amount
+            UPDATE wallet SET wallet = customer_wallet - order_total WHERE customers_id = NEW.customers_id;
+        ELSE
+            -- Set paid_stat to 'Pending' if the wallet is insufficient
+            UPDATE orders SET paid_stat = 'Pending' WHERE id_orders = NEW.id_orders;
+        END IF;
+    END IF;
 END
 $$
 DELIMITER ;
@@ -446,8 +474,7 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id_reservation`, `party_id`, `class_id`, `quantity`, `price`, `orders_id`) VALUES
-('R001', 'P001', 'CL001', 2, 500000, 'O001'),
-('R002', 'P002', 'CL003', 2, 1100000, 'O002');
+('R001', 'P002', 'CL001', 1, 350000, 'O002');
 
 --
 -- Triggers `reservation`
@@ -556,10 +583,47 @@ CREATE TABLE `ticket` (
 ,`Total Price` int(15) unsigned
 ,`Meals` varchar(20)
 ,`Time` varchar(45)
-,`Paid Status` enum('Paid','Pending','Cancel')
+,`Paid Status` enum('Paid','Pending')
 ,`Reservation Date` date
 ,`Ticket` varchar(8)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallet`
+--
+
+CREATE TABLE `wallet` (
+  `id_wallet` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `wallet` int(11) UNSIGNED NOT NULL,
+  `customers_id` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wallet`
+--
+
+INSERT INTO `wallet` (`id_wallet`, `wallet`, `customers_id`) VALUES
+('W001', 995000000, 'C001');
+
+--
+-- Triggers `wallet`
+--
+DELIMITER $$
+CREATE TRIGGER `alphanumeric_id_wallet` BEFORE INSERT ON `wallet` FOR EACH ROW BEGIN
+    -- Initialize or retrieve the current incrementing value
+    DECLARE current_value INT DEFAULT 0;
+    SELECT COALESCE(MAX(CAST(SUBSTRING(id_wallet, 2) AS SIGNED)), 0) INTO current_value FROM wallet;
+
+    -- Increment the value for the new record
+    SET current_value = current_value + 1;
+
+    -- Generate a 4-character key with incrementing numeric part
+    SET NEW.id_wallet = CONCAT('W', LPAD(current_value, 3, '0'));
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -643,6 +707,13 @@ ALTER TABLE `reservation`
   ADD KEY `orders_id` (`orders_id`);
 
 --
+-- Indexes for table `wallet`
+--
+ALTER TABLE `wallet`
+  ADD PRIMARY KEY (`id_wallet`),
+  ADD KEY `customers_id` (`customers_id`);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -650,8 +721,8 @@ ALTER TABLE `reservation`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `fk_order_customer` FOREIGN KEY (`customers_id`) REFERENCES `customers` (`id_customers`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_order_meals` FOREIGN KEY (`meals_id`) REFERENCES `meals` (`id_meals`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_order_customer` FOREIGN KEY (`customers_id`) REFERENCES `customers` (`id_customers`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_order_meals` FOREIGN KEY (`meals_id`) REFERENCES `meals` (`id_meals`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `reservation`
@@ -660,6 +731,12 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `fk_reservation_class` FOREIGN KEY (`class_id`) REFERENCES `class` (`id_class`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_reservation_orders` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id_orders`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_reservation_party` FOREIGN KEY (`party_id`) REFERENCES `party` (`id_party`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `wallet`
+--
+ALTER TABLE `wallet`
+  ADD CONSTRAINT `fk_wallet_customers` FOREIGN KEY (`customers_id`) REFERENCES `customers` (`id_customers`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

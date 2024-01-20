@@ -77,18 +77,31 @@ function showDetail(clickedElement) {
 
         let accordionBodyContent = document.createElement("div");
         accordionBodyContent.className = "accordion-body";
-        accordionBodyContent.innerHTML = `
-                      <strong>Class:</strong> ${reservation.class_type} - ${reservation.class_price} (IDR)<br>
-                      <strong>Party ID:</strong> ${reservation.party_type} - ${reservation.capacity} people - ${reservation.party_price} (IDR)<br>
-                      <strong>Price:</strong> ${reservation.price} (IDR)<br>
-                      <strong>Quantity:</strong> ${reservation.quantity}<br>
-                      <div class="d-flex justify-content-end">
-                        <a href="http://localhost/Deliziosa_Restaurant/public/reservation/formByOrder/${id}/${reservation.id_reservation}" 
-                        class="text-decoration-none mt-2 fs-6 me-3 btn btn-warning">Edit</a>
-                        <a href="http://localhost/Deliziosa_Restaurant/public/reservation/delete/${reservation.id_reservation}" 
-                        class="text-decoration-none mt-2 fs-6 btn btn-danger">Delete</a>
-                      </div>
-                  `;
+
+        if(data.orders.paid_stat !== 'Paid') {
+          accordionBodyContent.innerHTML = `
+                        <strong>Class:</strong> ${reservation.class_type} - ${reservation.class_price} (IDR)<br>
+                        <strong>Party ID:</strong> ${reservation.party_type} - ${reservation.capacity} people - ${reservation.party_price} (IDR)<br>
+                        <strong>Price:</strong> ${reservation.price} (IDR)<br>
+                        <strong>Quantity:</strong> ${reservation.quantity}<br>
+                        <div class="d-flex justify-content-end">
+                          <a href="http://localhost/Deliziosa_Restaurant/public/reservation/formByOrder/${id}/${reservation.id_reservation}" 
+                          class="text-decoration-none mt-2 fs-6 me-3 btn btn-warning">Edit</a>
+                          <a href="http://localhost/Deliziosa_Restaurant/public/reservation/delete/${reservation.id_reservation}" 
+                          class="text-decoration-none mt-2 fs-6 btn btn-danger">Delete</a>
+                        </div>
+                    `;
+          rsvBtn.href = new URL("http://localhost/Deliziosa_Restaurant/public/reservation/formByOrder/" + id, window.location.origin).href;
+          rsvBtn.style.display = "block";
+        } else {
+          accordionBodyContent.innerHTML = `
+                        <strong>Class:</strong> ${reservation.class_type} - ${reservation.class_price} (IDR)<br>
+                        <strong>Party ID:</strong> ${reservation.party_type} - ${reservation.capacity} people - ${reservation.party_price} (IDR)<br>
+                        <strong>Price:</strong> ${reservation.price} (IDR)<br>
+                        <strong>Quantity:</strong> ${reservation.quantity}<br>
+                    `;
+          rsvBtn.style.display = "none";
+        }
 
         // Append accordion body content to body
         accordionBody.appendChild(accordionBodyContent);

@@ -111,31 +111,35 @@ class Orders_model {
     }
 
     public function updateOrders($data) {
-        $query = 'UPDATE orders SET 
-                    customers_id = :customers_id,
-                    meals_id = :meals_id, 
-                    paid_stat=:paid_stat, 
-                    date_reservation=:date_reservation
-                    WHERE id_orders=:id_orders;';
-
-        $this->db->query($query);
-
-        $this->db->bind('customers_id', $data['id_customers']);
-        $this->db->bind('meals_id', $data['id_meals']);
-        $this->db->bind('paid_stat', $data['paid_stat']);
-        $this->db->bind('date_reservation', $data['date_reservation']);
-        $this->db->bind('id_orders', $data['id_orders']);
-
-        $this->db->execute();
-
-        $query = 'SELECT * FROM wallet WHERE customers_id = :customers_id';
-
-        $this->db->query($query);
-
-        $this->db->bind('customers_id', $data['id_customers']);
-        $this->db->single();
-
-        return $this->db->rowCount();
+        try {
+            $query = 'UPDATE orders SET 
+                        customers_id = :customers_id,
+                        meals_id = :meals_id, 
+                        paid_stat=:paid_stat, 
+                        date_reservation=:date_reservation
+                        WHERE id_orders=:id_orders;';
+        
+            $this->db->query($query);
+        
+            $this->db->bind('customers_id', $data['id_customers']);
+            $this->db->bind('meals_id', $data['id_meals']);
+            $this->db->bind('paid_stat', $data['paid_stat']);
+            $this->db->bind('date_reservation', $data['date_reservation']);
+            $this->db->bind('id_orders', $data['id_orders']);
+        
+            $this->db->execute();
+        
+            $query = 'SELECT * FROM wallet WHERE customers_id = :customers_id';
+        
+            $this->db->query($query);
+        
+            $this->db->bind('customers_id', $data['id_customers']);
+            $this->db->single();
+        
+            return $this->db->rowCount();
+        } catch (Exception $e) {
+           return 0;
+        }        
     }
 
     public function searchOrders() {

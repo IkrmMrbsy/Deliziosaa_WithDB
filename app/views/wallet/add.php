@@ -31,7 +31,7 @@
               class="form-control rounded-0 bg-body-secondary border border-dark-subtle"
               placeholder="Fill the wallet (IDR)"
               required
-              min="1"
+              min="<?=(!isset($_SESSION['is_admin'])) ? $data['wallet']['wallet'] : 0;?>"
               name="wallet"
               value="<?=(!empty($data['wallet']['id_wallet'])) ? $data['wallet']['wallet'] : '';?>"
             />

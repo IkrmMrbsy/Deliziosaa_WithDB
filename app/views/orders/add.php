@@ -89,13 +89,18 @@
             </div>
             <?php if (!empty($data['orders']['id_orders'])): ?>
                 <div class="mb-4">
-                    <select
-                        class="form-select rounded-0 bg-body-secondary border border-dark-subtle"
-                        aria-label="Paid Status" name="paid_stat" id="paid-stat" onchange="changeSelectBackground(this)"
-                    >
-                        <option class="bg-danger-subtle text-danger" value="Pending">Pending</option>
-                        <option class="bg-success-subtle text-success" value="Paid">Paid</option>
-                    </select>
+                    <?php if($data['orders']['paid_stat'] !== 'Paid') : ?>
+                        <select
+                            class="form-select rounded-0 bg-body-secondary border border-dark-subtle"
+                            aria-label="Paid Status" name="paid_stat" id="paid-stat" onchange="changeSelectBackground(this)"
+                        >
+                            <option class="bg-danger-subtle text-danger" value="Pending">Pending</option>
+                            <option class="bg-success-subtle text-success" value="Paid">Paid</option>
+                        </select>
+                    <?php else : ?>
+                        <input type="text" class="form-control rounded-0 bg-dark-subtle border border-dark-subtle disabled text-body-emphasis"
+                            aria-label="Paid Status" name="paid_stat" id="paid-stat" onchange="changeSelectBackground(this)" value="<?=$data['orders']['paid_stat']?>" readonly>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
             <div class="mb-4">

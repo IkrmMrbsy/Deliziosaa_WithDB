@@ -14,8 +14,6 @@ class Login extends Controller {
             // Login berhasil
             $_SESSION['username'] = $data['user']['name'];
             $_SESSION['id_user'] = $data['user']['id_customers'];
-            $data['wallet'] = $this->model('Wallet_model')->getWalletByCustomer($_SESSION['id_user']);
-            $_SESSION['customer_wallet'] = $data['wallet'];
             header("Location: " . BASEURL . "orders/index");
             exit();
         } else {
@@ -31,9 +29,13 @@ class Login extends Controller {
         if ($data['rowCount'] > 0) {
             $id = $data['id'];
             $name = $data['name'];
-        
+
             $_SESSION['username'] = $name;
             $_SESSION['id_user'] = $id;
+
+            $data['wallet'] = $this->model('Wallet_model')->getWalletByCustomer($_SESSION['id_user']);
+            $_SESSION['customer_wallet'] = $data['wallet'];
+            
             header('Location: '.BASEURL.'orders');
             exit();
         } else {

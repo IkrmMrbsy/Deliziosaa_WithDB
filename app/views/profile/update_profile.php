@@ -3,7 +3,7 @@
     <h1 class="text-center mb-5 fw-bold">
       Update <span class="text-warning">Profile</span>
     </h1>
-    <form action="<?=BASEURL;?>customers/update" method="post">
+    <form action="<?=BASEURL;?>customers/update" method="post" onsubmit="return confirm('Are you sure to change this profile?');">
       <input type="hidden" name="id_customers" value="<?=$data['customers']['id_customers']?>">
 
       <div class="mb-4">
@@ -34,6 +34,7 @@
           name="numbers_phone"
           required
           value="<?=$data['customers']['numbers_phone']?>"
+          pattern="[0-9]{12}"
         />
       </div>
       <div class="mb-4">
@@ -42,9 +43,7 @@
           class="form-control rounded-0 bg-body-secondary border border-dark-subtle"
           name="password"
           id="password"
-          placeholder="Password"
-          required
-          value="<?=$data['customers']['password']?>"
+          placeholder="Input the new password"
         />
       </div>
       <div class="form-check mb-4">

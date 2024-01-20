@@ -78,6 +78,10 @@ class Customers extends Controller {
         
         if($this->model('Customers_model')->updateCustomers($_POST) > 0) {
             Flasher::setFlash('alreay', 'updated', 'success');
+
+            if(!isset($_SESSION['is_admin'])) {
+                $_SESSION['username'] = $_POST['name'];
+            }
             
             header('Location: '.BASEURL.'customers');
             exit();
@@ -100,6 +104,7 @@ class Customers extends Controller {
             header('Location: '.BASEURL.'orders');
             exit();
         } else {
+            $data['title'] = 'Update Your Profile';
             $data['customers'] = $this->model('Customers_model')->getCustomersById($id);
             $this->view('templates/header', $data);
             $this->view('profile/update_profile', $data);

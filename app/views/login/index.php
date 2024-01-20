@@ -111,6 +111,7 @@
                 name="phoneNumbers"
                 required
                 autocomplete="off"
+                pattern="[0-9]{12}"
               />
             </div>
             <div class="mb-4">
