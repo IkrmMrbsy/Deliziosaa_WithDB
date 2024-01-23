@@ -11,9 +11,11 @@ class Login extends Controller {
         $data['user'] = $this->model('User_model')->getUserByEmail($email, $password);
 
         if ($data['user']) {
-            // Login berhasil
             $_SESSION['username'] = $data['user']['name'];
             $_SESSION['id_user'] = $data['user']['id_customers'];
+            $data['wallet'] = $this->model('Wallet_model')->getWalletByCustomer($_SESSION['id_user']);
+            $_SESSION['customer_wallet'] = $data['wallet'];
+
             header("Location: " . BASEURL . "orders/index");
             exit();
         } else {

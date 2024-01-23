@@ -29,7 +29,6 @@ class Customers_model {
     }
 
     public function addCustomers($data) {
-        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
 
         $query = 'INSERT INTO customers (name, numbers_phone, email, password) VALUES
                 (:name, :numbers_phone, :email, :password);';
@@ -39,7 +38,7 @@ class Customers_model {
         $this->db->bind('name', $data['name']);
         $this->db->bind('numbers_phone', $data['numbers_phone']);
         $this->db->bind('email', $data['email']);
-        $this->db->bind('password', $hashedPassword);
+        $this->db->bind('password', $data['password']);
 
         $this->db->execute();
 
@@ -87,7 +86,7 @@ class Customers_model {
         $this->db->bind('name', $data['name']);
 
         if(isset($data['password'])) {
-            $this->db->bind('password', password_hash($data['password'], PASSWORD_DEFAULT));
+            $this->db->bind('password', $data['password']);
         }
         
         $this->db->bind('email', $data['email']);
@@ -102,8 +101,7 @@ class Customers_model {
     public function searchCustomers() {
         $keyword = $_POST['keyword'];
 
-        $query = 'SELECT * FROM customers WHERE name LIKE :keyword'; // tanda % di dalam PDO tidak akan berjalan jika langsung dimasukkan ke query
-
+        $query = 'SELECT * FROM customers WHERE name LIKE :keyword';
         $this->db->query($query);
         $this->db->bind('keyword', "%$keyword%");
 

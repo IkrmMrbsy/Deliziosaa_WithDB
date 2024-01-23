@@ -17,14 +17,12 @@ class User_model {
     }
 
     public function registerUser($data) {
-        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-    
         $query = 'INSERT INTO ' . $this->table . ' (name, email, numbers_phone, password) VALUES (:name, :email, :numbers_phone, :password)';
         $this->db->query($query);
         $this->db->bind(':name', $data['fullname']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':numbers_phone', $data['phoneNumbers']);
-        $this->db->bind(':password', $hashedPassword);
+        $this->db->bind(':password', $data['password']);
         $this->db->execute();
     
         $this->db->query('SELECT id_customers FROM '.$this->table.' WHERE email = :email');

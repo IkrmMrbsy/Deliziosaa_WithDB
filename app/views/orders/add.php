@@ -1,5 +1,5 @@
 <main class="d-flex justify-content-center align-items-center h-100">
-    <section class="order rounded shadow-lg border border-dark-subtle">
+    <section class="form-container rounded shadow-lg border border-dark-subtle">
         <h1 class="text-center mb-5 fw-bold">
             Order <span class="text-warning">Here</span>
         </h1>
