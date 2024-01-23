@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 20, 2024 at 08:02 AM
+-- Generation Time: Jan 23, 2024 at 11:58 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -25,36 +25,6 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `generate_random_password` (OUT `random_string_result` VARCHAR(12))   BEGIN
-    DECLARE i INT DEFAULT 0;
-    DECLARE random_string VARCHAR(12) DEFAULT '';
-
-    WHILE i < 12 DO
-        -- Generate a random alphanumeric character
-        SET random_string = CONCAT(random_string, CHAR(FLOOR(65 + RAND() * 36)));
-
-        SET i = i + 1;
-    END WHILE;
-
-    -- Set the OUT parameter to the generated random string
-    SET random_string_result = random_string;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `generate_random_ticket` (OUT `random_string_result` VARCHAR(8))   BEGIN
-    DECLARE i INT DEFAULT 0;
-    DECLARE random_string VARCHAR(8) DEFAULT '';
-
-    WHILE i < 8 DO
-        -- Generate a random numeric character
-        SET random_string = CONCAT(random_string, CHAR(FLOOR(48 + RAND() * 10)));
-
-        SET i = i + 1;
-    END WHILE;
-
-    -- Set the OUT parameter to the generated random string
-    SET random_string_result = random_string;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `paid_ticket` (IN `idOrder` VARCHAR(255), IN `paidStat` VARCHAR(8))   BEGIN
 	DECLARE generatedTicket VARCHAR(12) DEFAULT '';
     
@@ -91,16 +61,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `reservation_price` (IN `idParty` VA
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `signin_suggested_password` (IN `phoneNumbers` VARCHAR(12), IN `custEmail` VARCHAR(29), IN `custName` VARCHAR(45))   BEGIN
-	DECLARE generatedPassword VARCHAR(12) DEFAULT '';
-	CALL generate_random_password(generatedPassword);
-    
-    INSERT INTO customers (numbers_phone, email, name, password) VALUE
-    (phoneNumbers, custEmail, custName, generatedPassword);
-    
-    SELECT generatedPassword;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_reservation_price` (IN `idReservation` VARCHAR(4), IN `idParty` VARCHAR(4), IN `idClass` VARCHAR(4), IN `revsQuantity` INT(11))   BEGIN
     DECLARE partyPrice INT;
     DECLARE classPrice INT;
@@ -120,26 +80,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_reservation_price` (IN `idRe
         quantity = revsQuantity,
         price = totalPrice
     WHERE id_reservation = idReservation;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_suggested_password` (IN `custEmail` VARCHAR(89), IN `verifyPassword` VARCHAR(12))   BEGIN
-    DECLARE oldPassword VARCHAR(12) DEFAULT '';
-    DECLARE newPassword VARCHAR(12) DEFAULT '';
-    CALL generate_random_password(newPassword);
-
-    -- Use SELECT ... INTO to retrieve the password for the given email
-    SELECT password INTO oldPassword FROM customers WHERE email = custEmail;
-
-    IF verifyPassword = oldPassword THEN
-        -- If the passwords match, update the password with the new one
-        UPDATE customers
-        SET password = newPassword
-        WHERE email = custEmail;
-        SELECT newPassword;
-    ELSE
-        -- If the passwords don't match, return an error message
-        SELECT 'The inputed password is wrong.' AS ErrorMessage;
-    END IF;
 END$$
 
 --
@@ -206,7 +146,7 @@ DELIMITER ;
 CREATE TABLE `class` (
   `id_class` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `class_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `price` int(15) NOT NULL
+  `price` int(15) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -239,22 +179,6 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `class_party_meals`
--- (See below for the actual view)
---
-CREATE TABLE `class_party_meals` (
-`Class Type` varchar(20)
-,`Class Price` int(15)
-,`Party Type` varchar(20)
-,`Party Capacity` int(11)
-,`Party Price` int(15)
-,`Meals` varchar(20)
-,`Time Description` varchar(45)
-);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `customers`
 --
 
@@ -271,7 +195,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id_customers`, `numbers_phone`, `email`, `name`, `password`) VALUES
-('C001', '081234567893', 'arbhy@gmail.com', 'Arbhy Adityabrahma', 'arb123');
+('C001', '081234567892', 'arbhy@gmail.com', 'Arbhy', 'arb16'),
+('C002', '081234567890', 'ikram@gmail.com', 'Ikram M.', 'ikram122');
 
 --
 -- Triggers `customers`
@@ -358,7 +283,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id_orders`, `customers_id`, `total_price`, `meals_id`, `paid_stat`, `date_paid`, `date_reservation`, `ticket`) VALUES
-('O002', 'C001', 350000, 'M001', 'Paid', '2024-01-19', '2024-01-19', '11153995');
+('O001', 'C001', 1650000, 'M001', 'Paid', '2024-01-23', '2024-01-24', '04089567'),
+('O002', 'C002', 500000, 'M001', 'Paid', '2024-01-23', '2024-01-23', '80434089');
 
 --
 -- Triggers `orders`
@@ -424,7 +350,7 @@ CREATE TABLE `party` (
   `id_party` varchar(4) NOT NULL,
   `party_type` varchar(20) NOT NULL,
   `capacity` int(11) NOT NULL,
-  `price` int(15) NOT NULL
+  `price` int(15) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -474,7 +400,9 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id_reservation`, `party_id`, `class_id`, `quantity`, `price`, `orders_id`) VALUES
-('R001', 'P002', 'CL001', 1, 350000, 'O002');
+('R001', 'P002', 'CL001', 1, 350000, 'O001'),
+('R002', 'P003', 'CL003', 2, 1300000, 'O001'),
+('R003', 'P001', 'CL001', 2, 500000, 'O002');
 
 --
 -- Triggers `reservation`
@@ -557,40 +485,6 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `reservation_details`
--- (See below for the actual view)
---
-CREATE TABLE `reservation_details` (
-`Name` varchar(45)
-,`Class` varchar(20)
-,`Party Type` varchar(20)
-,`Capacity` int(11)
-,`Reservation Quantity` int(11)
-,`Price` int(15)
-,`Meals` varchar(20)
-,`Meals Time` varchar(45)
-,`Ticket` varchar(8)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `ticket`
--- (See below for the actual view)
---
-CREATE TABLE `ticket` (
-`Name` varchar(45)
-,`Total Price` int(15) unsigned
-,`Meals` varchar(20)
-,`Time` varchar(45)
-,`Paid Status` enum('Paid','Pending')
-,`Reservation Date` date
-,`Ticket` varchar(8)
-);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `wallet`
 --
 
@@ -605,7 +499,8 @@ CREATE TABLE `wallet` (
 --
 
 INSERT INTO `wallet` (`id_wallet`, `wallet`, `customers_id`) VALUES
-('W001', 995000000, 'C001');
+('W001', 97650000, 'C001'),
+('W002', 400000, 'C002');
 
 --
 -- Triggers `wallet`
@@ -624,33 +519,6 @@ CREATE TRIGGER `alphanumeric_id_wallet` BEFORE INSERT ON `wallet` FOR EACH ROW B
 END
 $$
 DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `class_party_meals`
---
-DROP TABLE IF EXISTS `class_party_meals`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `class_party_meals`  AS SELECT `c`.`class_type` AS `Class Type`, `c`.`price` AS `Class Price`, `p`.`party_type` AS `Party Type`, `p`.`capacity` AS `Party Capacity`, `p`.`price` AS `Party Price`, `m`.`meals_type` AS `Meals`, `m`.`time_desc` AS `Time Description` FROM (((select `class`.`class_type` AS `class_type`,`class`.`price` AS `price`,row_number() over () AS `row_num` from `class`) `c` join (select `party`.`party_type` AS `party_type`,`party`.`capacity` AS `capacity`,`party`.`price` AS `price`,row_number() over () AS `row_num` from `party`) `p`) join (select `meals`.`meals_type` AS `meals_type`,`meals`.`time_desc` AS `time_desc`,row_number() over () AS `row_num` from `meals` where `meals`.`meals_type` in ('Breakfast','Lunch','Dinner')) `m`) WHERE `c`.`row_num` = `p`.`row_num` AND `c`.`row_num` = `m`.`row_num` ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `reservation_details`
---
-DROP TABLE IF EXISTS `reservation_details`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `reservation_details`  AS SELECT `cst`.`name` AS `Name`, `c`.`class_type` AS `Class`, `p`.`party_type` AS `Party Type`, `p`.`capacity` AS `Capacity`, `rsv`.`quantity` AS `Reservation Quantity`, `rsv`.`price` AS `Price`, `m`.`meals_type` AS `Meals`, `m`.`time_desc` AS `Meals Time`, `o`.`ticket` AS `Ticket` FROM (((((`reservation` `rsv` join `class` `c` on(`c`.`id_class` = `rsv`.`class_id`)) join `party` `p` on(`p`.`id_party` = `rsv`.`party_id`)) join `orders` `o` on(`o`.`id_orders` = `rsv`.`orders_id`)) join `meals` `m` on(`m`.`id_meals` = `o`.`meals_id`)) join `customers` `cst` on(`cst`.`id_customers` = `o`.`customers_id`)) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `ticket`
---
-DROP TABLE IF EXISTS `ticket`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ticket`  AS SELECT `c`.`name` AS `Name`, `o`.`total_price` AS `Total Price`, `m`.`meals_type` AS `Meals`, `m`.`time_desc` AS `Time`, `o`.`paid_stat` AS `Paid Status`, `o`.`date_reservation` AS `Reservation Date`, `o`.`ticket` AS `Ticket` FROM ((`orders` `o` join `customers` `c` on(`c`.`id_customers` = `o`.`customers_id`)) join `meals` `m` on(`m`.`id_meals` = `o`.`meals_id`)) ;
 
 --
 -- Indexes for dumped tables

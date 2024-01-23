@@ -9,17 +9,11 @@
           <?php if (!empty($data['party']['id_party'])) { ?>
               <div class="mb-4">
                 <input
-                    type="hidden" 
-                    name="id_party" 
-                    value="<?= $data['party']['id_party'];?>"
-                />
-
-                <input
                     type="text"
                     class="form-control rounded-0 bg-dark-subtle border border-dark-subtle disabled text-body-emphasis"
                     required
                     name="id_party"
-                    disabled
+                    readonly
                     value="<?= $data['party']['id_party'];?>"
                 />
               </div>

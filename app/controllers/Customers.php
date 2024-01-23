@@ -91,12 +91,6 @@ class Customers extends Controller {
             header('Location: '.BASEURL.'customers');
             exit();
         }
-        // if(isset($_SESSION['is_admin'])) {
-
-        // } else {
-        //     header('Location: '.BASEURL.'orders');
-        //     exit();
-        // }
     }
 
     public function profile($id) {

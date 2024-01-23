@@ -57,12 +57,13 @@
           </div>
           <div class="mb-3">
                 <input
-                type="password"
+                type="text"
                 class="form-control rounded-0 bg-body-secondary border border-dark-subtle"
                 placeholder="Password"
                 id="password"
                 required
                 name="password"
+                value="<?=(!empty($data['customers']['id_customers'])) ? $data['customers']['password'] : '';?>"
                 />
           </div>
           <button

@@ -43,6 +43,8 @@
           class="form-control rounded-0 bg-body-secondary border border-dark-subtle"
           name="password"
           id="password"
+          required
+          value="<?=$data['customers']['password']?>"
           placeholder="Input the new password"
         />
       </div>

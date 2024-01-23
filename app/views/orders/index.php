@@ -36,7 +36,7 @@
         <table class="table table-hover mt-4">
           <thead class="table-dark">
             <tr>
-              <th scope="col">ID Order</th>
+              <th scope="col">#</th>
               <th scope="col">Customer</th>
               <th scope="col">Total Price</th>
               <!-- <th scope="col">Meals</th> -->
@@ -50,9 +50,12 @@
             </tr>
           </thead>
           <tbody>
-            <?php foreach($data['orders'] as $order) :?>
+            <?php 
+              $n = 1;
+              foreach($data['orders'] as $order) :
+            ?>
             <tr>
-              <td><?=$order['id_orders'];?></td>
+              <td><?=$n++;?></td>
               <td><?=$order['name'];?></td>
               <td><?=$order['total_price'];?></td>
               <?= ($order['paid_stat'] !== 'Paid') 

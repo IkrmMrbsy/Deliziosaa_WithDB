@@ -59,36 +59,17 @@ class Customers_model {
     }
 
     public function updateCustomers($data) {
-        if(isset($data['password'])) {
-            $query = 'UPDATE customers SET 
+        $query = 'UPDATE customers SET 
                         name=:name, 
                         password=:password, 
                         email=:email,
                         numbers_phone =:numbers_phone 
                         WHERE id_customers=:id_customers;';
-        } else {
-            $query = 'UPDATE customers SET 
-                        name=:name, 
-                        email=:email,
-                        numbers_phone =:numbers_phone 
-                        WHERE id_customers=:id_customers;';
-    
-            $this->db->query($query);
-    
-            $this->db->bind('name', $data['name']);
-            $this->db->bind('email', $data['email']);
-            $this->db->bind('numbers_phone', $data['numbers_phone']);
-            $this->db->bind('id_customers', $data['id_customers']);
-        }
 
         $this->db->query($query);
     
         $this->db->bind('name', $data['name']);
-
-        if(isset($data['password'])) {
-            $this->db->bind('password', $data['password']);
-        }
-        
+        $this->db->bind('password', $data['password']);
         $this->db->bind('email', $data['email']);
         $this->db->bind('numbers_phone', $data['numbers_phone']);
         $this->db->bind('id_customers', $data['id_customers']);

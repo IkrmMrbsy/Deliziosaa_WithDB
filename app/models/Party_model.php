@@ -31,7 +31,7 @@ class Party_model {
 
     public function addParty($data) {
         
-        $query = 'INSERT INTO party (party_type, capacity, price) VALUES(:party_type, :capacity, :price)';
+        $query = 'INSERT INTO party (party_type, capacity, price, stock) VALUES(:party_type, :capacity, :price)';
         $this->db->query($query);
         $this->db->bind(':party_type', $data['party_type']);
         $this->db->bind(':capacity', $data['capacity']);

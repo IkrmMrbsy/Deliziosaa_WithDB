@@ -4,24 +4,18 @@
             Order <span class="text-warning">Here</span>
         </h1>
         <form action="<?= (!empty($data['orders']['id_orders'])) ? BASEURL.'orders/update' : BASEURL.'orders/add'; ?>" method="post">
-            <div class="mb-4">
-                <?php if (!empty($data['orders']['id_orders'])): ?>
-                    <input
-                        type="hidden" 
-                        name="id_orders" 
-                        value="<?= $data['orders']['id_orders'];?>"
-                    />
-
-                    <input
-                        type="text"
-                        class="form-control rounded-0 bg-dark-subtle border border-dark-subtle disabled text-body-emphasis"
-                        required
-                        name="id_orders"
-                        disabled
-                        value="<?= $data['orders']['id_orders'];?>"
-                    />
-                <?php endif; ?>
-            </div>
+                <div class="mb-4">
+                    <?php if (!empty($data['orders']['id_orders'])): ?>
+                        <input
+                            type="<?= (isset($_SESSION['is_admin'])) ? 'text' : 'hidden' ;?>"
+                            class="form-control rounded-0 bg-dark-subtle border border-dark-subtle disabled text-body-emphasis"
+                            required
+                            name="id_orders"
+                            <?= (isset($_SESSION['is_admin'])) ? 'readonly' : '' ;?>
+                            value="<?= $data['orders']['id_orders'];?>"
+                        />
+                </div>
+            <?php endif; ?>
             <div class="mb-4">
                 <div class="mb-4">
                     <?php if(isset($_SESSION['is_admin'])): ?>

@@ -19,7 +19,7 @@ class Login extends Controller {
             header("Location: " . BASEURL . "orders/index");
             exit();
         } else {
-            header('Location: '.BASEURL."login/login");
+            header('Location: '.BASEURL."login/index");
             exit();
         }
     }
@@ -41,7 +41,7 @@ class Login extends Controller {
             header('Location: '.BASEURL.'orders');
             exit();
         } else {
-            header('Location: '.BASEURL."login/login");
+            header('Location: '.BASEURL."login/index");
             exit();
         }
     }
