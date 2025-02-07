@@ -20,9 +20,9 @@
                 </div>
             <?php endif; ?>
             <div class="mb-4">
-                <select class="form-select rounded-0 bg-body-secondary border border-dark-subtle" aria-label="Party" name="id_party">
+                <select class="form-select rounded-0 bg-body-secondary border border-dark-subtle" aria-label="Party" name="id_party" required>
                     <?php if(empty($data['reservation']['id_reservation'])) : ?>
-                        <option selected disabled>Choose your party type</option>
+                        <option selected disabled value="">Choose your party type</option>
                     <?php endif; ?>
                     <?php if(!empty($data['reservation']['id_reservation'])) { ?>
                         <?php foreach ($data['party'] as $party) : ?>
@@ -40,9 +40,9 @@
                 </select>
             </div>
             <div class="mb-4">
-            <select class="form-select rounded-0 bg-body-secondary border border-dark-subtle" aria-label="Class" name="id_class">
+            <select class="form-select rounded-0 bg-body-secondary border border-dark-subtle" aria-label="Class" name="id_class" required>
                     <?php if(empty($data['reservation']['id_reservation'])) : ?>
-                        <option selected disabled>Choose your class type</option>
+                        <option selected disabled value="">Choose your class type</option>
                     <?php endif; ?>
                     <?php if(!empty($data['reservation']['id_reservation'])) { ?>
                         <?php foreach ($data['class'] as $class) : ?>

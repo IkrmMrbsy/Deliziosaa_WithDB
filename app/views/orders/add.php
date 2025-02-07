@@ -61,10 +61,10 @@
             <div class="mb-4">
                 <select
                     class="form-select rounded-0 bg-body-secondary border border-dark-subtle"
-                    aria-label="Meals" name="id_meals"
+                    aria-label="Meals" name="id_meals" required
                 >
                     <?php if(empty($data['orders']['id_orders'])): ?>
-                        <option selected disabled>Pick your time</option>
+                        <option selected disabled value="">Pick your time</option>
                     <?php endif; ?>
                     <?php if (!empty($data['orders']['id_orders'])): ?>
                         <?php foreach ($data['meals'] as $meals): ?>
